@@ -56,7 +56,7 @@ stages:
                     azureSubscription: 'Azure thesis resource manager'
                     appType: 'webAppLinux'
                     appName: 'dev-azure-thesis-client'
-                    package: $(Pipeline.Workspace)/client-$(Build.BuildId)
+                    package: $(Pipeline.Workspace)/client-$(Build.BuildId)/*.zip
                     runtimeStack: 'NODE|12-lts'
                     startUpCommand: npx serve
                     deploymentMethod: zipDeploy
