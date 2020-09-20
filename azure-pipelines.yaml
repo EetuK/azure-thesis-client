@@ -55,12 +55,12 @@ stages:
                 - script: |
                     cd ${System.DefaultWorkingDirectory}
                     ls
-                    cd $(Pipeline.Workspace)
+                    cd $(Pipeline.Workspace)/client-${Build.BuildId}
                     ls
                 - task: AzureWebApp@1
                   inputs:
                     azureSubscription: 'Azure thesis resource manager'
                     appType: 'webAppLinux'
                     appName: 'dev-azure-thesis-client'
-                    package: /home/vsts/work/client-$(Build.BuildId)/*.zip
+                    package: /home/vsts/work/client-$(Build.BuildId)
                     runtimeStack: 'NODE|12-lts'
