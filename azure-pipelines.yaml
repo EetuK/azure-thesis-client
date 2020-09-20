@@ -20,17 +20,15 @@ stages:
           - task: Npm@1
             inputs:
               command: "install"
-              workingDir: "client"
           - task: Npm@1
             displayName: "client - npm run build"
             inputs:
               command: "custom"
-              workingDir: "client"
               customCommand: "run build"
 
           - task: ArchiveFiles@2
             inputs:
-              rootFolderOrFile: "client/build"
+              rootFolderOrFile: "build"
               includeRootFolder: false
               archiveType: "zip"
               archiveFile: "$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip"
