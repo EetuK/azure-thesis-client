@@ -1,0 +1,105 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+  - develop
+
+pool:
+  vmImage: "ubuntu-latest"
+
+stages:
+  - stage: build
+    displayName: Build
+    jobs:
+      - job: buildClient
+        displayName: Build Client
+        cancelTimeoutInMinutes: 7
+        steps:
+          - task: Npm@1
+            inputs:
+              command: "install"
+              workingDir: "client"
+          - task: Npm@1
+            displayName: "client - npm run build"
+            inputs:
+              command: "custom"
+              workingDir: "client"
+              customCommand: "run build"
+
+          - task: ArchiveFiles@2
+            inputs:
+              rootFolderOrFile: "client/build"
+              includeRootFolder: false
+              archiveType: "zip"
+              archiveFile: "$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip"
+              replaceExistingArchive: true
+          # - task: PublishBuildArtifacts@1
+          #   inputs:
+          #     PathtoPublish: "$(Build.ArtifactStagingDirectory)"
+          #     ArtifactName: "client"
+          #     publishLocation: "Container"
+
+          # FOR MULTISTAGE DEPLOY ->
+          - task: PublishPipelineArtifact@1
+            inputs:
+              targetPath: "$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip"
+              artifact: "client"
+              publishLocation: "pipeline"
+          # <-
+
+  - stage: deploy
+    displayName: Deloy
+    dependsOn: build
+    jobs:
+      - deployment: deployCLient
+        displayName: Deploy client
+        environment: dev
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - task: DownloadPipelineArtifact@2
+                  inputs:
+                    buildType: "current"
+                    artifactName: "client"
+                    targetPath: "$(Pipeline.Workspace)"
+                - task: DownloadPipelineArtifact@2
+                  inputs:
+                    buildType: "current"
+                    artifactName: "server"
+                    targetPath: "$(Pipeline.Workspace)"
+                - script: ls
+                  workingDirectory: "$(Pipeline.Workspace)"
+                  displayName: "Command Line Script"
+                - script: cd server && ls
+                  workingDirectory: "$(Pipeline.Workspace)"
+                  displayName: "Command Line Script"
+                - script: cd client && ls
+                  workingDirectory: "$(Pipeline.Workspace)"
+                  displayName: "Command Line Script"
+
+                - task: AzureRmWebAppDeployment@4
+                  inputs:
+                    ConnectionType: "AzureRM"
+                    azureSubscription: "New azure-thesis service principal connection"
+                    appType: "webAppLinux"
+                    ResourceGroupName: $(resourceGroupName)
+                    WebAppName: "$(backendAppServiceName)"
+                    packageForLinux: "$(Pipeline.Workspace)/server"
+                    RuntimeStack: "NODE|12-lts"
+                    StartupCommand: "npm start"
+                - task: AzureRmWebAppDeployment@4
+                  inputs:
+                    ConnectionType: "AzureRM"
+                    azureSubscription: "Azure-thesis(e3e804b5-1964-40fd-b487-d40d1f6d71d8)"
+                    ResourceGroupName: $(resourceGroupName)
+                    appType: "webAppLinux"
+                    WebAppName: "$(clientAppServiceName)"
+                    #packageForLinux: "$(System.DefaultWorkingDirectory)/**/client.zip"
+                    packageForLinux: "$(Pipeline.Workspace)/client"
+                    RuntimeStack: "NODE|12-lts"
+                    StartupCommand: "npm start"
+
+  # <-
