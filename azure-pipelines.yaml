@@ -56,5 +56,5 @@ stages:
                     azureSubscription: 'Azure thesis resource manager'
                     appType: 'webAppLinux'
                     appName: 'dev-azure-thesis-client'
-                    package: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+                    package: '$(System.DefaultWorkingDirectory)/$(Build.BuildId).zip'
                     runtimeStack: 'NODE|12-lts'
