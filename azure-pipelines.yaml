@@ -51,10 +51,13 @@ stages:
           runOnce:
             deploy:
               steps:
+                - script: |
+                    cd ${System.DefaultWorkingDirectory}
+                    ls
                 - task: AzureWebApp@1
                   inputs:
                     azureSubscription: 'Azure thesis resource manager'
                     appType: 'webAppLinux'
                     appName: 'dev-azure-thesis-client'
-                    package: '*.zip'
+                    package: $(System.DefaultWorkingDirectory)/**/*.zip
                     runtimeStack: 'NODE|12-lts'
