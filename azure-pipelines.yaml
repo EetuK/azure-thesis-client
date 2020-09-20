@@ -54,6 +54,8 @@ stages:
                 - script: |
                     cd ${System.DefaultWorkingDirectory}
                     ls
+                    cd $(Pipeline.Workspace)
+                    ls
                 - task: AzureWebApp@1
                   inputs:
                     azureSubscription: 'Azure thesis resource manager'
