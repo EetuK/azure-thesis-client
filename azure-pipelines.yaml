@@ -58,5 +58,5 @@ stages:
                     appName: 'dev-azure-thesis-client'
                     package: $(Pipeline.Workspace)/client-$(Build.BuildId)/*.zip
                     runtimeStack: 'NODE|12-lts'
-                    startUpCommand: node ./
+                    startUpCommand: npx serve
                     deploymentMethod: zipDeploy
