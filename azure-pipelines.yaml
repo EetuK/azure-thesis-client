@@ -61,5 +61,5 @@ stages:
                     azureSubscription: 'Azure thesis resource manager'
                     appType: 'webAppLinux'
                     appName: 'dev-azure-thesis-client'
-                    package: $(Pipeline.Workspace)/*.zip
+                    package: $(Pipeline.Workspace)/client/*.zp
                     runtimeStack: 'NODE|12-lts'
