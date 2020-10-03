@@ -47,16 +47,33 @@ stages:
       - deployment: deployCLient
         displayName: Deploy client
         environment: dev
+        variables:
+          - group:
         strategy:
           runOnce:
             deploy:
               steps:
+                - task: AzureAppServiceSettings@1
+                  displayName: Azure App Service Settings
+                  inputs:
+                    azureSubscription: "Azure thesis resource manager"
+                    appName: "dev-azure-thesis-client"
+                    resourceGroupName: "dev-azure-thesis"
+                    appSettings: |
+                      [
+                        {
+                          "name": "API_URI",
+                          "value": "$(API-URI)",
+                          "slotSetting": false
+                        }
+                      ]
+
                 - task: AzureWebApp@1
                   inputs:
-                    azureSubscription: 'Azure thesis resource manager'
-                    appType: 'webAppLinux'
-                    appName: 'dev-azure-thesis-client'
+                    azureSubscription: "Azure thesis resource manager"
+                    appType: "webAppLinux"
+                    appName: "dev-azure-thesis-client"
                     package: $(Pipeline.Workspace)/client-$(Build.BuildId)/*.zip
-                    runtimeStack: 'NODE|12-lts'
+                    runtimeStack: "NODE|12-lts"
                     startUpCommand: npx serve
                     deploymentMethod: zipDeploy
