@@ -1,20 +1,18 @@
 import React from "react";
-import { config } from "dotenv/types";
-
-const { API_URI } = config;
+import { API_URI } from "./config";
 
 const App = () => {
   const [data, setData] = React.useState(undefined);
 
   const fetchData = async () => {
-    const result = await fetch(`${API_URI}/v1`);
+    const result = await fetch(`${API_URI}/`);
     console.log(result);
     const data = await result.json();
     setData(data);
   };
 
   const onButtonClick = async () => {
-    const result = await fetch(`${API_URI}/v1`, {
+    await fetch(`${API_URI}/`, {
       method: "POST", // *GET, POST, PUT, DELETE, etc.
       mode: "cors", // no-cors, *cors, same-origin
       cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
@@ -24,9 +22,6 @@ const App = () => {
         // 'Content-Type': 'application/x-www-form-urlencoded',
       },
     });
-    console.log(result);
-    const data = await result.json();
-    console.log(data);
   };
 
   React.useEffect(() => {
