@@ -13,15 +13,17 @@ stages:
         cancelTimeoutInMinutes: 7
         steps:
           - task: Npm@1
+            displayName: "npm ci"
             inputs:
               command: "custom"
               customCommand: "ci"
           - task: Npm@1
+            displayName: "npm run test"
             inputs:
               command: "custom"
               customCommand: "run test"
           - task: Npm@1
-            displayName: "client - npm run build"
+            displayName: "npm run build"
             inputs:
               command: "custom"
               customCommand: "run build"
