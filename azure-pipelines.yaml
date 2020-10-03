@@ -15,11 +15,11 @@ stages:
           - task: Npm@1
             inputs:
               command: "custom"
-              customCommand: "npm ci"
+              customCommand: "ci"
           - task: Npm@1
             inputs:
               command: "custom"
-              customCommand: "npm run test"
+              customCommand: "run test"
           - task: Npm@1
             displayName: "client - npm run build"
             inputs:
