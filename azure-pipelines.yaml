@@ -19,7 +19,7 @@ stages:
           - task: Npm@1
             inputs:
               command: "custom"
-              customCommand: "nom run test"
+              customCommand: "npm run test"
           - task: Npm@1
             displayName: "client - npm run build"
             inputs:
