@@ -48,7 +48,7 @@ stages:
         displayName: Deploy client
         environment: dev
         variables:
-          - group:
+          - group: client-dev
         strategy:
           runOnce:
             deploy:
