@@ -1,8 +1,3 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
-
 trigger:
   - develop
 
@@ -19,7 +14,12 @@ stages:
         steps:
           - task: Npm@1
             inputs:
-              command: "install"
+              command: "custom"
+              customCommand: "npm ci"
+          - task: Npm@1
+            inputs:
+              command: "custom"
+              customCommand: "nom run test"
           - task: Npm@1
             displayName: "client - npm run build"
             inputs:
