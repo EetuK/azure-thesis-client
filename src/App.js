@@ -5,14 +5,19 @@ const App = () => {
   const [data, setData] = React.useState(undefined);
 
   const fetchData = async () => {
-    const result = await fetch(`${API_URI}/`);
-    console.log(result);
-    const data = await result.json();
-    setData(data);
+    try {
+      const result = await fetch(`${API_URI}/`);
+      console.log(result);
+      const data = await result.json();
+      console.log(data);
+      setData(data);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const onButtonClick = async () => {
-    await fetch(`${API_URI}/`, {
+    const res = await fetch(`${API_URI}/`, {
       method: "POST", // *GET, POST, PUT, DELETE, etc.
       mode: "cors", // no-cors, *cors, same-origin
       cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
@@ -22,6 +27,8 @@ const App = () => {
         // 'Content-Type': 'application/x-www-form-urlencoded',
       },
     });
+    await fetchData();
+    console.log(res);
   };
 
   React.useEffect(() => {
