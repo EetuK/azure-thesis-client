@@ -46,12 +46,12 @@ const App = () => {
         flexDirection: "column",
       }}
     >
-      <h1>Web-sovellus</h1>
+      <h1>Web Application</h1>
       <br />
       <br />
-      <h2>Tietueen numero: {data ? data.id : "ei tietoa"}</h2>
+      <h2>Number of the latest record: {data ? data.id : "ei tietoa"}</h2>
       <p>
-        Päivitetty:{" "}
+        Updated:{" "}
         {data ? new Date(data.date_created).toLocaleString() : "ei tietoa"}
       </p>
       <div
@@ -62,9 +62,9 @@ const App = () => {
           flexDirection: "row",
         }}
       >
-        <button onClick={() => onButtonClick()}>Päivitä</button>
+        <button onClick={() => onButtonClick()}>Increase</button>
         <button style={{ marginLeft: "20px" }} onClick={() => fetchData()}>
-          Hae tiedot
+          Fetch
         </button>
       </div>
     </div>
