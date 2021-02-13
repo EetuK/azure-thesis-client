@@ -18,13 +18,12 @@ const App = () => {
 
   const onButtonClick = async () => {
     const res = await fetch(`${API_URI}/`, {
-      method: "POST", // *GET, POST, PUT, DELETE, etc.
-      mode: "cors", // no-cors, *cors, same-origin
-      cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
-      credentials: "same-origin", // include, *same-origin, omit
+      method: "POST",
+      mode: "cors", 
+      cache: "no-cache", 
+      credentials: "same-origin", 
       headers: {
         "Content-Type": "application/json",
-        // 'Content-Type': 'application/x-www-form-urlencoded',
       },
     });
     await fetchData();
