@@ -1,8 +1,9 @@
 trigger:
   - develop
-
-pool:
-  vmImage: "ubuntu-latest"
+pr:
+  branches:
+    include:
+      - "*"
 
 stages:
   - stage: build
@@ -46,9 +47,9 @@ stages:
     displayName: Deloy
     dependsOn: build
     jobs:
-      - deployment: deployCLient
+      - deployment: deployClient
         displayName: Deploy client
-        environment: dev
+        environment: client-dev
         variables:
           - group: client-dev
         strategy:
@@ -69,7 +70,6 @@ stages:
                           "slotSetting": false
                         }
                       ]
-
                 - task: AzureWebApp@1
                   inputs:
                     azureSubscription: "Azure thesis resource manager"
