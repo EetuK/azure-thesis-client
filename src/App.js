@@ -19,9 +19,9 @@ const App = () => {
   const onButtonClick = async () => {
     const res = await fetch(`${API_URI}/`, {
       method: "POST",
-      mode: "cors", 
-      cache: "no-cache", 
-      credentials: "same-origin", 
+      mode: "cors",
+      cache: "no-cache",
+      credentials: "same-origin",
       headers: {
         "Content-Type": "application/json",
       },
@@ -45,7 +45,7 @@ const App = () => {
         flexDirection: "column",
       }}
     >
-      <h1>Web Application</h1>
+      <h1>Web-sovellus</h1>
       <br />
       <br />
       <h2>Number of the latest record: {data ? data.id : "ei tietoa"}</h2>
